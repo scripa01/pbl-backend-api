@@ -1,6 +1,5 @@
 package md.pbl.project.pblbackendapi.model.user;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +12,6 @@ public class UserDto {
     String username;
     String email;
     String fullName;
-    List<String> roles;
+    Role role;
 
 }

@@ -5,18 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class TaskDto {
-    Long id;
-    String title;
-    String description;
-    String status;
-    Long boardId;
-    Long assigneeId;
-    OffsetDateTime createdAt;
-    OffsetDateTime updatedAt;
+    private Long id;
+    private String title;
+    private String description;
+    private String status;
+    private Long assigneeId;
+    private Long createdByUserId;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
+    private List<CommentDto> comments;
+    private Long boardId;
 
 }
