@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  backend-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pbl-backend-api
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - board-task-api
+      - organization-project-user-api
+    networks:
+      - backend-net
+
+  board-task-api:
+    image: board-task-api:latest
+    container_name: board-task-api
+    ports:
+      - "8082:8082"
+    networks:
+      - backend-net
+
+  organization-project-user-api:
+    image: organization-project-user-api:latest
+    container_name: organization-project-user-api
+    ports:
+      - "8083:8083"
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge
