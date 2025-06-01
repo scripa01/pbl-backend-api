@@ -14,56 +14,56 @@ import java.util.List;
 public interface BoardTaskClient {
     // Boards
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards")
-    List<BoardDto> getBoards(@PathVariable Long orgId, @PathVariable Long projId);
+    List<BoardDto> getBoards(@PathVariable Long orgId, @PathVariable Long projId, @RequestHeader("X-User-Id") Long userId);
 
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}")
-    BoardDto getBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId);
+    BoardDto getBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestHeader("X-User-Id") Long userId);
 
     @PostMapping("/api/orgs/{orgId}/projects/{projId}/boards")
-    BoardDto createBoard(@PathVariable Long orgId, @PathVariable Long projId, @RequestBody BoardDto dto);
+    BoardDto createBoard(@PathVariable Long orgId, @PathVariable Long projId, @RequestBody BoardDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @PutMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}")
-    BoardDto updateBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestBody BoardDto dto);
+    BoardDto updateBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestBody BoardDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @DeleteMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}")
-    void deleteBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId);
+    void deleteBoard(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestHeader("X-User-Id") Long userId);
 
     // Tasks
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks")
-    List<TaskDto> getTasks(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId);
+    List<TaskDto> getTasks(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestHeader("X-User-Id") Long userId);
 
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}")
-    TaskDto getTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId);
+    TaskDto getTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestHeader("X-User-Id") Long userId);
 
     @PostMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks")
-    TaskDto createTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestBody TaskDto dto);
+    TaskDto createTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @RequestBody TaskDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @PutMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}")
-    TaskDto updateTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestBody TaskDto dto);
+    TaskDto updateTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestBody TaskDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @DeleteMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}")
-    void deleteTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId);
+    void deleteTask(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestHeader("X-User-Id") Long userId);
 
-    @PatchMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/status")
-    TaskDto changeTaskStatus(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestParam TaskStatus newStatus);
+    @PutMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/status")
+    TaskDto changeTaskStatus(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestParam TaskStatus newStatus, @RequestHeader("X-User-Id") Long userId);
 
     // Comments
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments")
-    List<CommentDto> getComments(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId);
+    List<CommentDto> getComments(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestHeader("X-User-Id") Long userId);
 
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments/{id}")
-    CommentDto getComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id);
+    CommentDto getComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id, @RequestHeader("X-User-Id") Long userId);
 
     @PostMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments")
-    CommentDto createComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestBody CommentDto dto);
+    CommentDto createComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestBody CommentDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @PutMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments/{id}")
-    CommentDto updateComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id, @RequestBody CommentDto dto);
+    CommentDto updateComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id, @RequestBody CommentDto dto, @RequestHeader("X-User-Id") Long userId);
 
     @DeleteMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments/{id}")
-    void deleteComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id);
+    void deleteComment(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @PathVariable Long id, @RequestHeader("X-User-Id") Long userId);
 
     // Audit
     @GetMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/audit")
-    List<TaskAuditDto> getTaskAudit(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId);
+    List<TaskAuditDto> getTaskAudit(@PathVariable Long orgId, @PathVariable Long projId, @PathVariable Long boardId, @PathVariable Long taskId, @RequestHeader("X-User-Id") Long userId);
 }

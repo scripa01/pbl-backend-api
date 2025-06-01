@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/core/organizations/{orgId}")
+@RequestMapping("/api/core/organizations")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class OrganizationController {
@@ -29,19 +29,19 @@ public class OrganizationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<OrganizationDto> create(@RequestBody OrganizationDto dto) {
         return new ResponseEntity<>(orgService.create(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public OrganizationDto update(@PathVariable Long id, @RequestBody OrganizationDto dto) {
         return orgService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         orgService.delete(id);
         return ResponseEntity.noContent().build();

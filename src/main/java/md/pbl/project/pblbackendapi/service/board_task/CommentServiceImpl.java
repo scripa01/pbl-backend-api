@@ -15,26 +15,26 @@ class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAll(Long orgId, Long projId, Long boardId, Long taskId, Long userId) throws PblCustomException {
-        return client.getComments(orgId, projId, boardId, taskId);
+        return client.getComments(orgId, projId, boardId, taskId, userId);
     }
 
     @Override
     public CommentDto get(Long orgId, Long projId, Long boardId, Long taskId, Long commentId, Long userId) throws PblCustomException {
-        return client.getComment(orgId, projId, boardId, taskId, commentId);
+        return client.getComment(orgId, projId, boardId, taskId, commentId, userId);
     }
 
     @Override
     public CommentDto create(Long orgId, Long projId, Long boardId, Long taskId, Long userId, CommentDto dto) throws PblCustomException {
-        return client.createComment(orgId, projId, boardId, taskId, dto);
+        return client.createComment(orgId, projId, boardId, taskId, dto, userId);
     }
 
     @Override
     public CommentDto update(Long orgId, Long projId, Long boardId, Long taskId, Long commentId, Long userId, CommentDto dto) throws PblCustomException {
-        return client.updateComment(orgId, projId, boardId, taskId, commentId, dto);
+        return client.updateComment(orgId, projId, boardId, taskId, commentId, dto, userId);
     }
 
     @Override
     public void delete(Long orgId, Long projId, Long boardId, Long taskId, Long commentId, Long userId) throws PblCustomException {
-        client.deleteComment(orgId, projId, boardId, taskId, commentId);
+        client.deleteComment(orgId, projId, boardId, taskId, commentId, userId);
     }
 }

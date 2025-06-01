@@ -30,19 +30,19 @@ public class ProjectController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProjectDto> create(@PathVariable Long orgId, @RequestBody ProjectDto dto) {
         return new ResponseEntity<>(projectService.create(orgId, dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{projectId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ProjectDto update(@PathVariable Long orgId, @PathVariable Long projectId, @RequestBody ProjectDto dto) throws PblCustomException {
         return projectService.update(orgId, projectId, dto);
     }
 
     @DeleteMapping("/{projectId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long orgId, @PathVariable Long projectId) {
         projectService.delete(orgId, projectId);
         return ResponseEntity.noContent().build();

@@ -16,32 +16,32 @@ class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> getAll(Long orgId, Long projId, Long boardId, Long userId) throws PblCustomException {
-        return client.getTasks(orgId, projId, boardId);
+        return client.getTasks(orgId, projId, boardId, userId);
     }
 
     @Override
     public TaskDto get(Long orgId, Long projId, Long boardId, Long taskId, Long userId) throws PblCustomException {
-        return client.getTask(orgId, projId, boardId, taskId);
+        return client.getTask(orgId, projId, boardId, taskId, userId);
     }
 
     @Override
     public TaskDto create(Long orgId, Long projId, Long boardId, Long userId, TaskDto dto) throws PblCustomException {
-        return client.createTask(orgId, projId, boardId, dto);
+        return client.createTask(orgId, projId, boardId, dto, userId);
     }
 
     @Override
     public TaskDto update(Long orgId, Long projId, Long boardId, Long taskId, Long userId, TaskDto dto) throws PblCustomException {
-        return client.updateTask(orgId, projId, boardId, taskId, dto);
+        return client.updateTask(orgId, projId, boardId, taskId, dto, userId);
     }
 
     @Override
     public void delete(Long orgId, Long projId, Long boardId, Long taskId, Long userId) throws PblCustomException {
-        client.deleteTask(orgId, projId, boardId, taskId);
+        client.deleteTask(orgId, projId, boardId, taskId, userId);
     }
 
     @Override
     public TaskDto workflowStatus(Long orgId, Long projId, Long boardId, Long taskId, Long userId, TaskStatus newStatus) throws PblCustomException {
-        return client.changeTaskStatus(orgId, projId, boardId, taskId, newStatus);
+        return client.changeTaskStatus(orgId, projId, boardId, taskId, newStatus, userId);
     }
 }
 

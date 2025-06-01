@@ -1,5 +1,6 @@
 package md.pbl.project.pblbackendapi.rest.board_task;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import md.pbl.project.pblbackendapi.exceptions.PblCustomException;
 import md.pbl.project.pblbackendapi.model.task.TaskDto;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class TaskController {
     private final TaskService service;
 
@@ -40,7 +42,6 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
     public ResponseEntity<TaskDto> create(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -52,7 +53,6 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    @PreAuthorize("hasRole('MASTER')")
     public ResponseEntity<TaskDto> update(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -65,7 +65,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -77,8 +77,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{taskId}/status")
-    @PreAuthorize("hasRole('MASTER')")
+    @PutMapping("/{taskId}/status")
     public ResponseEntity<TaskDto> changeStatus(
             @PathVariable Long orgId,
             @PathVariable Long projId,

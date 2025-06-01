@@ -14,6 +14,6 @@ class TaskAuditServiceImpl implements TaskAuditService {
 
     @Override
     public List<TaskAuditDto> getAuditForTask(Long orgId, Long projId, Long boardId, Long taskId, Long userId) {
-        return client.getTaskAudit(orgId, projId, boardId, taskId);
+        return client.getTaskAudit(orgId, projId, boardId, taskId, userId);
     }
 }

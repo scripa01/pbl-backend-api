@@ -1,5 +1,6 @@
 package md.pbl.project.pblbackendapi.rest.board_task;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import md.pbl.project.pblbackendapi.exceptions.PblCustomException;
 import md.pbl.project.pblbackendapi.model.task.CommentDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orgs/{orgId}/projects/{projId}/boards/{boardId}/tasks/{taskId}/comments")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class CommentController {
     private final CommentService service;
 
@@ -41,7 +43,7 @@ public class CommentController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommentDto> create(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -54,7 +56,7 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CommentDto> update(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -68,7 +70,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(
             @PathVariable Long orgId,
             @PathVariable Long projId,

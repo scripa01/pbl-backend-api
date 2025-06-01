@@ -1,5 +1,6 @@
 package md.pbl.project.pblbackendapi.rest.board_task;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import md.pbl.project.pblbackendapi.exceptions.PblCustomException;
 import md.pbl.project.pblbackendapi.model.board.BoardDto;
@@ -14,28 +15,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orgs/{orgId}/projects/{projId}/boards")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class BoardController {
     private final BoardService service;
 
     @GetMapping
     public ResponseEntity<List<BoardDto>> list(
             @PathVariable Long orgId,
-            @PathVariable Long projId
+            @PathVariable Long projId,
+            @RequestHeader("X-User-Id") Long userId
     ) throws PblCustomException {
-        return ResponseEntity.ok(service.getAll(orgId, projId));
+        return ResponseEntity.ok(service.getAll(orgId, projId, userId));
     }
 
     @GetMapping("/{boardId}")
     public ResponseEntity<BoardDto> get(
             @PathVariable Long orgId,
             @PathVariable Long projId,
-            @PathVariable Long boardId
+            @PathVariable Long boardId,
+            @RequestHeader("X-User-Id") Long userId
     ) throws PblCustomException {
-        return ResponseEntity.ok(service.get(orgId, projId, boardId));
+        return ResponseEntity.ok(service.get(orgId, projId, boardId, userId));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BoardDto> create(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -46,7 +50,7 @@ public class BoardController {
     }
 
     @PutMapping("/{boardId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BoardDto> update(
             @PathVariable Long orgId,
             @PathVariable Long projId,
@@ -58,7 +62,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/{boardId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(
             @PathVariable Long orgId,
             @PathVariable Long projId,

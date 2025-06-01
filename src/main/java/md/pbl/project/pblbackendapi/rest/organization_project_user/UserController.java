@@ -31,19 +31,19 @@ public class UserController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDto> create(@PathVariable Long orgId, @RequestBody UserDto dto) {
         return new ResponseEntity<>(userService.create(orgId, dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{userId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDto update(@PathVariable Long orgId, @PathVariable Long userId, @RequestBody UserDto dto) {
         return userService.update(orgId, userId, dto);
     }
 
     @DeleteMapping("/{userId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long orgId, @PathVariable Long userId) {
         userService.delete(orgId, userId);
         return ResponseEntity.noContent().build();

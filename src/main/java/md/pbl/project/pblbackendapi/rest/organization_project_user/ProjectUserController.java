@@ -29,14 +29,14 @@ public class ProjectUserController {
     }
 
     @PostMapping("/projects/{projectId}/users/{userId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> assignUser(@PathVariable Long orgId, @PathVariable Long projectId, @PathVariable Long userId, @RequestParam String role) {
         puService.assignUserToProject(orgId, projectId, userId, role);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/projects/{projectId}/users/{userId}")
-    @PreAuthorize("hasRole('MASTER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeUser(@PathVariable Long orgId, @PathVariable Long projectId, @PathVariable Long userId) {
         puService.removeUserFromProject(orgId, projectId, userId);
         return ResponseEntity.noContent().build();
