@@ -1,37 +1,118 @@
 version: "3.9"
 
 services:
-  backend-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: pbl-backend-api
-    ports:
-      - "8089:8089"
+  auth-db:
+    image: postgres:15
+    container_name: auth-db
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      POSTGRES_DB: authorization-user-api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  authorization-user-api:
+    image: authorization-user-api
+    build:
+      context: ../authorization-user-api
+    container_name: authorization-user-api
     depends_on:
-      - board-task-api
-      - organization-project-user-api
+      - auth-db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/authorization-user-api
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
+    networks:
+      - backend-net
+
+  board-db:
+    image: postgres:15
+    container_name: board-db
+    environment:
+      POSTGRES_DB: board-task
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    ports:
+      - "5433:5432"
+    volumes:
+      - board-db-data:/var/lib/postgresql/data
     networks:
       - backend-net
 
   board-task-api:
-    image: board-task-api:latest
+    image: board-task-api
+    build:
+      context: ../board-task-api
     container_name: board-task-api
+    depends_on:
+      - board-db
     ports:
       - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://board-db:5432/board-task
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
+    networks:
+      - backend-net
+
+  org-db:
+    image: postgres:15
+    container_name: org-db
+    environment:
+      POSTGRES_DB: organization_project_user
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    ports:
+      - "5434:5432"
+    volumes:
+      - org-db-data:/var/lib/postgresql/data
     networks:
       - backend-net
 
   organization-project-user-api:
-    image: organization-project-user-api:latest
+    image: organization-project-user-api
+    build:
+      context: ../organization-project-user-api
     container_name: organization-project-user-api
+    depends_on:
+      - org-db
     ports:
       - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://org-db:5432/organization_project_user
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456789
     networks:
       - backend-net
 
+  backend-api:
+    image: pbl-backend-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pbl-backend-api
+    depends_on:
+      - board-task-api
+      - organization-project-user-api
+      - authorization-user-api
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend-net
+
+volumes:
+  auth-db-data:
+  board-db-data:
+  org-db-data:
+
 networks:
   backend-net:
-    driver: bridge
+    external: true
