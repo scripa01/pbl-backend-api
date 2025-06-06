@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.crypto.SecretKey;
 import java.util.List;
@@ -35,8 +36,9 @@ public class SecurityConfig {
     private String secretBase64;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
@@ -69,6 +71,7 @@ public class SecurityConfig {
 
         return converter;
     }
+
     @Bean
     public JwtDecoder jwtDecoder() {
         byte[] keyBytes = Decoders.BASE64.decode(secretBase64);
